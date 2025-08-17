@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylsheet" href="/css/kategori.css">
+    <link rel="stylesheet" href="{{ asset('css/kategori.css') }}">
 @endpush
 
 @section('content')
@@ -41,7 +41,7 @@
                         <button class="btn-action delete-btn"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
-                </tbody>
+            </tbody>
         </table>
     </div>
 </div>
@@ -61,7 +61,6 @@
 </div>
 @endsection
 
-<!-- @section('scripts')
-<link rel="stylesheet" href="{{ asset('css/kategori.css') }}">
-<script src="{{ asset('js/kategori.js') }}"></script>
-@endsection -->
+@push('scripts')
+<script src="{{ asset('js/kategori/script.js') }}"></script>
+@endpush

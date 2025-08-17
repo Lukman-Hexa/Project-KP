@@ -32,10 +32,10 @@ class UserController extends Controller
         return view('dashboard');
     }
 
-    public function showKetegori()
-    {
-        return view('kategori_laporan');
-    }
+    // public function showKetegori()
+    // {
+    //     return view('kategori_laporan');
+    // }
 
     public function logout()
     {

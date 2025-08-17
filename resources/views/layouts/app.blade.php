@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard - Dinas Lingkungan Hidup</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,6 +66,6 @@
             </div>
         </main>
     </div>
-    @yield('scripts')
+    @stack('scripts')
 </body>
 </html>
