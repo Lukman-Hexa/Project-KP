@@ -7,7 +7,7 @@
 @section('content')
 <div class="page-header">
     <h1 class="page-title">Kategori Laporan</h1>
-    <p class="page-description">Daftar Laporan</p>
+    <p class="page-description">Daftar Kategori Laporan</p>
 </div>
 
 <div class="page-content">
