@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriLaporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class KategoriLaporanController extends Controller
 {
@@ -27,6 +29,13 @@ class KategoriLaporanController extends Controller
         $request->validate([
             'nama_laporan' => 'required|string|max:255',
         ]);
+
+        // Periksa apakah tabel kosong, jika ya, reset auto_increment
+        if (KategoriLaporan::count() === 0) {
+            Schema::disableForeignKeyConstraints();
+            DB::statement('ALTER TABLE kategori_laporans AUTO_INCREMENT = 1;');
+            Schema::enableForeignKeyConstraints();
+        }
 
         // Logika penomoran otomatis
         $lastKategori = KategoriLaporan::latest('id')->first();

@@ -12,7 +12,7 @@
 
 <div class="page-content">
     <button id="btn-add-kategori" class="btn btn-primary">
-        <i class="fas fa-plus"></i> + Kategori Laporan
+        <i class="fas fa-plus"></i>Kategori Laporan
     </button>
 
     <div class="table-container">
@@ -25,22 +25,16 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($kategori_laporans as $kategori)
                 <tr>
-                    <td>KLP01</td>
-                    <td>Pencemaran Air</td>
+                    <td>{{ $kategori->kode_kategori }}</td>
+                    <td>{{ $kategori->nama_laporan }}</td>
                     <td>
-                        <button class="btn-action edit-btn"><i class="fas fa-pen"></i></button>
-                        <button class="btn-action delete-btn"><i class="fas fa-trash"></i></button>
+                        <button class="btn-action edit-btn" data-id="{{ $kategori->id }}" data-nama="{{ $kategori->nama_laporan }}"><i class="fas fa-pen"></i></button>
+                        <button class="btn-action delete-btn" data-id="{{ $kategori->id }}"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
-                <tr>
-                    <td>KLP02</td>
-                    <td>Pencemaran Udara</td>
-                    <td>
-                        <button class="btn-action edit-btn"><i class="fas fa-pen"></i></button>
-                        <button class="btn-action delete-btn"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -48,9 +42,12 @@
 
 <div id="kategori-modal" class="modal">
     <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2 id="modal-title">Tambah Kategori Laporan</h2>
+        <div class="modal-header">
+            <h2 id="modal-title">Tambah Kategori Laporan</h2>
+            <span class="close-btn">&times;</span>
+        </div>
         <form id="kategori-form">
+            <input type="hidden" id="kategori-id" name="id">
             <div class="form-group">
                 <label for="nama_laporan">Nama Kategori Laporan</label>
                 <input type="text" id="nama_laporan" name="nama_laporan" required>
@@ -59,8 +56,19 @@
         </form>
     </div>
 </div>
+
+<div id="delete-modal" class="modal">
+    <div class="modal-content-delete">
+        <h2 class="modal-title-delete">Konfirmasi Hapus</h2>
+        <p>Apakah Anda yakin ingin menghapus data ini?</p>
+        <div class="modal-buttons">
+            <button id="cancel-delete" class="btn btn-secondary">Batal</button>
+            <button id="confirm-delete" class="btn btn-danger">Hapus</button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/kategori/script.js') }}"></script>
+<script src="{{ asset('js/kategori.js') }}"></script>
 @endpush

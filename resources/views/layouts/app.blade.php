@@ -40,10 +40,16 @@
             </div>
             <nav class="sidebar-nav">
                 <ul class="main-menu">
-                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <!-- <li><a href="{{ route('dashboard') }}" class="active"><i class="fas fa-home"></i> Dashboard</a></li> -->
+                    <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
                     <li><a href="#"><i class="fas fa-file-alt"></i> Input Laporan</a></li>
                     <li><a href="#"><i class="fas fa-file-invoice"></i> Data Laporan</a></li>
-                    <li><a href="kategori-laporan"><i class="fas fa-list-alt"></i> Kategori Laporan</a></li>
+                    <!-- <li><a href="{{ route('kategori-laporan') }}"><i class="fas fa-list-alt"></i> Kategori Laporan</a></li> -->
+                    <li class="{{ request()->routeIs('kategori-laporan') ? 'active' : '' }}">
+                        <a href="{{ route('kategori-laporan') }}"><i class="fas fa-list-alt"></i> Kategori Laporan</a>
+                    </li>
                     <li><a href="#"><i class="fas fa-city"></i> Kecamatan</a></li>
                     <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kelurahan</a></li>
                 </ul>

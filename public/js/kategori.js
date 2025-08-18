@@ -1,12 +1,17 @@
 // File: public/js/kategori.js
 
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('kategori-modal');
+    const addModal = document.getElementById('kategori-modal');
+    const deleteModal = document.getElementById('delete-modal');
     const form = document.getElementById('kategori-form');
     const namaLaporanInput = document.getElementById('nama_laporan');
     const kategoriIdInput = document.getElementById('kategori-id');
     const modalTitle = document.getElementById('modal-title');
     const tableBody = document.querySelector('.table-container tbody');
+    const closeBtn = document.querySelector('.close-btn');
+
+    // Variabel untuk menyimpan ID kategori yang akan dihapus
+    let kategoriToDeleteId = null;
 
     // Mengambil dan menampilkan data dari API
     function fetchKategoriLaporan() {
@@ -31,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Menampilkan modal untuk menambah data
     document.getElementById('btn-add-kategori').onclick = function() {
-        modal.style.display = 'flex';
+        addModal.style.display = 'flex';
         modalTitle.textContent = 'Tambah Kategori Laporan';
         form.reset();
         kategoriIdInput.value = '';
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tableBody.addEventListener('click', function(e) {
         if (e.target.closest('.edit-btn')) {
             const btn = e.target.closest('.edit-btn');
-            modal.style.display = 'flex';
+            addModal.style.display = 'flex';
             modalTitle.textContent = 'Edit Kategori Laporan';
             kategoriIdInput.value = btn.dataset.id;
             namaLaporanInput.value = btn.dataset.nama;
@@ -49,12 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Menutup modal
-    document.querySelector('.close-btn').onclick = function() {
-        modal.style.display = 'none';
+    closeBtn.onclick = function() {
+        addModal.style.display = 'none';
     }
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
+        if (event.target == addModal) {
+            addModal.style.display = 'none';
         }
     }
 
@@ -64,41 +69,66 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = kategoriIdInput.value;
         const url = id ? `/api/kategori-laporan/${id}` : '/api/kategori-laporan';
         const method = id ? 'PUT' : 'POST';
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
         fetch(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                'X-CSRF-TOKEN': csrfToken
             },
             body: JSON.stringify({ nama_laporan: namaLaporanInput.value })
         })
         .then(response => response.json())
         .then(() => {
-            modal.style.display = 'none';
+            addModal.style.display = 'none';
             fetchKategoriLaporan(); // Muat ulang data
         });
     });
 
-    // Menangani penghapusan data
+    // Menangani klik tombol hapus di tabel
     tableBody.addEventListener('click', function(e) {
         if (e.target.closest('.delete-btn')) {
             const btn = e.target.closest('.delete-btn');
-            const id = btn.dataset.id;
-            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                fetch(`/api/kategori-laporan/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
-                .then(() => {
-                    fetchKategoriLaporan(); // Muat ulang data
-                });
-            }
+            kategoriToDeleteId = btn.dataset.id; // Simpan ID
+            deleteModal.style.display = 'flex'; // Tampilkan modal konfirmasi
         }
     });
 
-    // Panggil fungsi saat halaman dimuat
+    // Menangani tombol "Batal" di modal hapus
+    document.getElementById('cancel-delete').onclick = function() {
+        deleteModal.style.display = 'none';
+        kategoriToDeleteId = null;
+    }
+
+    // Menangani tombol "Hapus" di modal hapus
+    document.getElementById('confirm-delete').onclick = function() {
+        if (kategoriToDeleteId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            fetch(`/api/kategori-laporan/${kategoriToDeleteId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(() => {
+                deleteModal.style.display = 'none';
+                kategoriToDeleteId = null;
+                fetchKategoriLaporan(); // Muat ulang data
+            });
+        }
+    }
+
+    // Menutup modal hapus saat mengklik di luar area
+    window.onclick = function(event) {
+        if (event.target == deleteModal) {
+            deleteModal.style.display = 'none';
+            kategoriToDeleteId = null;
+        }
+        if (event.target == addModal) {
+            addModal.style.display = 'none';
+        }
+    }
+
     fetchKategoriLaporan();
 });
