@@ -51,7 +51,10 @@
                     <li class="{{ request()->routeIs('kecamatan') ? 'active' : '' }}">
                         <a href="{{ route('kecamatan') }}"><i class="fas fa-city"></i> Kecamatan</a>
                     </li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kelurahan</a></li>
+                    
+                    <li class="{{ request()->routeIs('kelurahan') ? 'active' : '' }}">
+                        <a href="{{ route('kelurahan') }}"><i class="fas fa-map-marker-alt"></i> Kelurahan</a>
+                    </li>
                 </ul>
             </nav>
             <div class="sidebar-footer">

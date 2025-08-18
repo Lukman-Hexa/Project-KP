@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/kecamatan.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/kelurahan.css') }}">
 @endpush
 
 @section('content')
 <div class="page-header">
-    <h1 class="page-title">Daftar Kecamatan</h1>
-    <p class="page-description">Daftar Kecamatan Yang Telah Terdaftar</p>
+    <h1 class="page-title">Daftar Kelurahan</h1>
+    <p class="page-description">Daftar Kelurahan Yang Telah Terdaftar</p>
 </div>
 
 <div class="page-content">
-    <button id="btn-add-kecamatan" class="btn btn-primary">
-        <i class="fas fa-plus"></i>Kecamatan
+    <button id="btn-add-kelurahan" class="btn btn-primary">
+        <i class="fas fa-plus"></i>Kelurahan
     </button>
 
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>No. Kecamatan</th>
+                    <th>No. Kelurahan</th>
+                    <th>Nama Kelurahan</th>
                     <th>Nama Kecamatan</th>
                     <th>Aksi</th>
                 </tr>
@@ -30,17 +31,22 @@
     </div>
 </div>
 
-<div id="kecamatan-modal" class="modal">
+<div id="kelurahan-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 id="modal-title">Tambah Kecamatan</h2>
+            <h2 id="modal-title">Tambah Kelurahan</h2>
             <span class="close-btn">&times;</span>
         </div>
-        <form id="kecamatan-form">
-            <input type="hidden" id="kecamatan-id" name="id">
+        <form id="kelurahan-form">
+            <input type="hidden" id="kelurahan-id" name="id">
             <div class="form-group">
-                <label for="nama_kecamatan">Nama Kecamatan</label>
-                <input type="text" id="nama_kecamatan" name="nama_kecamatan" required>
+                <label for="nama_kelurahan">Nama Kelurahan</label>
+                <input type="text" id="nama_kelurahan" name="nama_kelurahan" required>
+            </div>
+            <div class="form-group">
+                <label for="kecamatan_id">Pilih Kecamatan</label>
+                <select id="kecamatan_id" name="kecamatan_id" required>
+                    </select>
             </div>
             <button type="submit" class="btn btn-submit">Simpan</button>
         </form>
@@ -60,5 +66,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/kecamatan.js') }}"></script>
+    <script src="{{ asset('js/kelurahan.js') }}"></script>
 @endpush

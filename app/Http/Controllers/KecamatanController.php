@@ -14,22 +14,16 @@ class KecamatanController extends Controller
      */
     public function index()
     {
-        return view('kecamatan');
+        $kecamatan = Kecamatan::all();
+        return view('kecamatan', compact('kecamatan'));
     }
 
-    /**
-     * Mengambil semua data kecamatan dari database.
-     * Digunakan untuk API.
-     */
     public function all()
     {
         $kecamatans = Kecamatan::all();
         return response()->json($kecamatans);
     }
 
-    /**
-     * Menyimpan data kecamatan baru ke database.
-     */
     public function store(Request $request)
     {
         $request->validate([

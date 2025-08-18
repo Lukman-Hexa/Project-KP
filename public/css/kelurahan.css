@@ -1,3 +1,4 @@
+/* File: public/css/kelurahan.css */
 .page-header {
     margin-bottom: 40px;
     color: #00796b;
@@ -164,7 +165,8 @@ table tbody tr td {
     color: #333;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 95%;
     padding: 10px;
     border: 1px solid #ccc;
