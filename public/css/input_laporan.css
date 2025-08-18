@@ -1,0 +1,124 @@
+.page-header {
+    margin-bottom: 40px;
+    color: #00796b;
+    width: 100%;
+}
+
+.page-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.page-description {
+    font-size: 18px;
+    color: #555;
+    margin: 0;
+}
+
+.page-content {
+    background-color: #f0f2f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px;
+    width: auto;
+}
+
+#laporan-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.file-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.file-input-group input[type="file"] {
+    flex-grow: 1;
+}
+
+.file-input-group input[type="text"] {
+    flex-grow: 2;
+}
+
+.btn-secondary {
+    background-color: #0087c5;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #0076a5;
+}
+
+.btn-remove {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-remove i {
+    font-size: 14px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-submit:hover {
+    background-color: #218838;
+}

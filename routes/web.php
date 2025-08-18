@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KategoriLaporanController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('login', [UserController::class, 'login']);
@@ -15,6 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kategori-laporan', [KategoriLaporanController::class, 'index'])->name('kategori-laporan');
     Route::get('kecamatan', [KecamatanController::class, 'index'])->name('kecamatan');
     Route::get('kelurahan', [KelurahanController::class, 'index'])->name('kelurahan');
+    Route::get('input-laporan', [LaporanController::class, 'create'])->name('input-laporan');
 });
 
 // API Routes
@@ -35,4 +37,18 @@ Route::prefix('api')->group(function () {
     Route::post('kelurahan', [KelurahanController::class, 'store']);
     Route::put('kelurahan/{id}', [KelurahanController::class, 'update']);
     Route::delete('kelurahan/{id}', [KelurahanController::class, 'destroy']);
+
+    
+    // API untuk halaman input laporan
+    // API untuk mengambil kelurahan berdasarkan kecamatan
+    Route::get('kelurahan-by-kecamatan/{kecamatanId}', [LaporanController::class, 'getKelurahanByKecamatan']);
+    
+    // API untuk mengambil semua kecamatan
+    // Route::get('kecamatan-all', [KecamatanController::class, 'all']);
+    
+    // API untuk mengambil semua kategori laporan
+    Route::get('kategori-laporan-all', [KategoriLaporanController::class, 'all']);
+
+    // Rute POST untuk menyimpan laporan
+    Route::post('laporan', [LaporanController::class, 'store'])->name('laporan.store');
 });
