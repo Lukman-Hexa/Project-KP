@@ -62,7 +62,7 @@
 
         <div class="form-group file-input-container">
             <button type="button" id="add-document-btn" class="btn btn-secondary">
-                <i class="fas fa-plus"></i> + Tambah Lampiran
+                <i class="fas fa-plus"></i> Tambah Lampiran
             </button>
             <div id="file-inputs">
                 <div class="file-input-group">
