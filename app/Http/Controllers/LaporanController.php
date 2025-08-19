@@ -15,6 +15,60 @@ use Illuminate\Support\Facades\Log;
 
 class LaporanController extends Controller
 {
+    // ... method `create` dan `store` yang sudah ada ...
+    
+    /**
+     * Menampilkan halaman daftar laporan.
+     */
+    public function index()
+    {
+        $laporans = Laporan::with(['kecamatan', 'kelurahan', 'dokumen'])->get();
+        return view('data_laporan', compact('laporans'));
+    }
+
+    /**
+     * Mengambil satu laporan berdasarkan ID.
+     * Digunakan untuk API saat edit.
+     */
+    public function show($id)
+    {
+        $laporan = Laporan::with(['kecamatan', 'kelurahan', 'dokumen'])->findOrFail($id);
+        return response()->json($laporan);
+    }
+    
+    /**
+     * Memperbarui data laporan yang sudah ada.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_pelapor' => 'required|string|max:255',
+            'status_laporan' => 'required|string|in:proses,selesai',
+        ]);
+        
+        $laporan = Laporan::findOrFail($id);
+        $laporan->update($request->all());
+        
+        return response()->json($laporan);
+    }
+    
+    /**
+     * Menghapus data laporan dari database.
+     */
+    public function destroy($id)
+    {
+        $laporan = Laporan::findOrFail($id);
+        
+        // Hapus file-file terkait sebelum menghapus data laporan
+        foreach ($laporan->dokumen as $dokumen) {
+            Storage::delete($dokumen->path_file);
+        }
+        
+        $laporan->delete();
+        
+        return response()->json(null, 204);
+    }
+    
     public function create()
     {
         $kecamatans = Kecamatan::all();

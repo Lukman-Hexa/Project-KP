@@ -47,7 +47,10 @@
                     <li class="{{ request()->routeIs('input-laporan') ? 'active' : '' }}">
                         <a href="{{ route('input-laporan') }}"><i class="fas fa-file-alt"></i> Input Laporan</a>
                     </li>
-                    <li><a href="#"><i class="fas fa-file-invoice"></i> Data Laporan</a></li>
+                    <!-- <li><a href="#"><i class="fas fa-file-invoice"></i> Data Laporan</a></li> -->
+                    <li class="{{ request()->routeIs('data-laporan') ? 'active' : '' }}">
+                        <a href="{{ route('data-laporan') }}"><i class="fas fa-file-invoice"></i> Data Laporan</a>
+                    </li>
                     <li class="{{ request()->routeIs('kategori-laporan') ? 'active' : '' }}">
                         <a href="{{ route('kategori-laporan') }}"><i class="fas fa-list-alt"></i> Kategori Laporan</a>
                     </li>

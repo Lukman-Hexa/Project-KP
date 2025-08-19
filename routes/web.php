@@ -17,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kecamatan', [KecamatanController::class, 'index'])->name('kecamatan');
     Route::get('kelurahan', [KelurahanController::class, 'index'])->name('kelurahan');
     Route::get('input-laporan', [LaporanController::class, 'create'])->name('input-laporan');
+    Route::get('data-laporan', [LaporanController::class, 'index'])->name('data-laporan');
 });
 
 // API Routes
@@ -51,4 +52,13 @@ Route::prefix('api')->group(function () {
 
     // Rute POST untuk menyimpan laporan
     Route::post('laporan', [LaporanController::class, 'store'])->name('laporan.store');
+
+    // API untuk halaman data laporan
+    Route::get('laporan', [LaporanController::class, 'all']); // Anda bisa abaikan ini, karena kita akan langsung passing data dari controller
+    Route::get('laporan/{id}', [LaporanController::class, 'show']);
+    Route::put('laporan/{id}', [LaporanController::class, 'update']);
+    Route::delete('laporan/{id}', [LaporanController::class, 'destroy']);
+    
+    Route::post('laporan', [LaporanController::class, 'store'])->name('laporan.store');
+    
 });

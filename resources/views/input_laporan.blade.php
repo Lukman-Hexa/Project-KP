@@ -33,12 +33,14 @@
                 <label for="kecamatan_id">Kecamatan <span style="color: red;">*</span></label>
                 <select id="kecamatan_id" name="kecamatan_id" required>
                     <option value="" disabled selected>-- Pilih Kecamatan --</option>
+                    {{-- Opsi akan diisi oleh JavaScript --}}
                 </select>
             </div>
             <div class="form-group">
                 <label for="kelurahan_id">Kelurahan <span style="color: red;">*</span></label>
                 <select id="kelurahan_id" name="kelurahan_id" required disabled>
                     <option value="" disabled selected>-- Pilih Kelurahan --</option>
+                    {{-- Opsi akan diisi oleh JavaScript --}}
                 </select>
             </div>
         </div>
@@ -47,6 +49,7 @@
             <label for="jenis_masalah">Jenis Masalah Lingkungan <span style="color: red;">*</span></label>
             <select id="jenis_masalah" name="jenis_masalah" required>
                 <option value="" disabled selected>-- Pilih Jenis Masalah --</option>
+                {{-- Opsi akan diisi oleh JavaScript --}}
             </select>
         </div>
 
@@ -75,7 +78,6 @@
     </form>
 </div>
 
-<!-- Loading overlay (optional) -->
 <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px;">
         <p>Sedang mengunggah laporan...</p>
