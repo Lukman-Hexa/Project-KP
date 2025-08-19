@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const fileInputGroup = document.createElement('div');
         fileInputGroup.className = 'file-input-group';
         fileInputGroup.innerHTML = `
-            <input type="file" name="dokumen[]" required>
+            <input type="file" name="dokumen[]" accept=".pdf" required>
             <input type="text" name="nama_dokumen[]" placeholder="Masukan Nama Dokumen" required>
             <button type="button" class="btn-remove"><i class="fas fa-times"></i></button>
         `;
@@ -88,41 +88,146 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        const formData = new FormData(form);
         
+        // Validasi form sebelum submit
+        const namaSelapor = document.getElementById('nama_pelapor').value.trim();
+        const statusLaporan = document.getElementById('status_laporan').value;
+        const kecamatanId = document.getElementById('kecamatan_id').value;
+        const kelurahanId = document.getElementById('kelurahan_id').value;
+        const jenisMasalah = document.getElementById('jenis_masalah').value;
+        const deskripsiPengaduan = document.getElementById('deskripsi_pengaduan').value.trim();
+        
+        // Validasi file upload
+        const fileInputs = document.querySelectorAll('input[name="dokumen[]"]');
+        const namaFiles = document.querySelectorAll('input[name="nama_dokumen[]"]');
+        
+        if (!namaSelapor) {
+            alert('Nama pelapor harus diisi!');
+            return;
+        }
+        
+        if (!statusLaporan) {
+            alert('Status laporan harus dipilih!');
+            return;
+        }
+        
+        if (!kecamatanId) {
+            alert('Kecamatan harus dipilih!');
+            return;
+        }
+        
+        if (!kelurahanId) {
+            alert('Kelurahan harus dipilih!');
+            return;
+        }
+        
+        if (!jenisMasalah) {
+            alert('Jenis masalah harus dipilih!');
+            return;
+        }
+        
+        if (!deskripsiPengaduan) {
+            alert('Deskripsi pengaduan harus diisi!');
+            return;
+        }
+        
+        // Validasi file
+        for (let i = 0; i < fileInputs.length; i++) {
+            if (!fileInputs[i].files[0]) {
+                alert('Semua file dokumen harus diunggah!');
+                return;
+            }
+            
+            if (!namaFiles[i].value.trim()) {
+                alert('Nama dokumen harus diisi!');
+                return;
+            }
+            
+            // Validasi ukuran file (max 6MB)
+            if (fileInputs[i].files[0].size > 6 * 1024 * 1024) {
+                alert('Ukuran file tidak boleh lebih dari 6MB!');
+                return;
+            }
+            
+            // Validasi format file
+            if (!fileInputs[i].files[0].name.toLowerCase().endsWith('.pdf')) {
+                alert('Format file harus PDF!');
+                return;
+            }
+        }
+        
+        const formData = new FormData(form);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        
+        // Tampilkan loading
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sedang mengirim...';
+        submitBtn.disabled = true;
 
         fetch('/api/laporan', {
             method: 'POST',
             body: formData,
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest' // Tambahkan header ini
+                'X-Requested-With': 'XMLHttpRequest'
             }
         })
         .then(response => {
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
+            if (!response.ok) {
+                // Log response untuk debugging
+                return response.text().then(text => {
+                    console.error('Error response:', text);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                });
+            }
+            
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.includes("application/json")) {
                 return response.json();
             } else {
                 return response.text().then(text => {
                     console.error('Server returned non-JSON response:', text);
-                    throw new Error('Terjadi kesalahan pada server. Silakan coba lagi.');
+                    throw new Error('Server mengembalikan response yang tidak valid');
                 });
             }
         })
         .then(data => {
+            console.log('Success:', data);
             alert('Laporan berhasil diajukan!');
             form.reset();
+            
+            // Reset dropdowns
+            kelurahanDropdown.innerHTML = '<option value="" disabled selected>-- Pilih Kelurahan --</option>';
+            kelurahanDropdown.disabled = true;
+            
+            // Reset file inputs container to original state
+            fileInputsContainer.innerHTML = `
+                <div class="file-input-group">
+                    <input type="file" name="dokumen[]" accept=".pdf" required>
+                    <input type="text" name="nama_dokumen[]" placeholder="Masukan Nama Dokumen" required>
+                    <button type="button" class="btn-remove"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            
             fetchKecamatanDropdown();
             fetchKategoriDropdown();
         })
         .catch(error => {
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
             console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengajukan laporan.');
+            alert('Terjadi kesalahan: ' + error.message);
         });
     });
     
+    // Initialize dropdowns
     fetchKecamatanDropdown();
     fetchKategoriDropdown();
 });

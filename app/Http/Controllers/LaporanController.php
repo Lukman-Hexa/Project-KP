@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 
 class LaporanController extends Controller
 {
@@ -27,8 +28,13 @@ class LaporanController extends Controller
      */
     public function getKelurahanByKecamatan($kecamatanId)
     {
-        $kelurahans = Kelurahan::where('kecamatan_id', $kecamatanId)->get();
-        return response()->json($kelurahans);
+        try {
+            $kelurahans = Kelurahan::where('kecamatan_id', $kecamatanId)->get();
+            return response()->json($kelurahans);
+        } catch (\Exception $e) {
+            Log::error('Error fetching kelurahan: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch kelurahan'], 500);
+        }
     }
 
     /**
@@ -36,52 +42,141 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_pelapor' => 'required|string|max:255',
-            'status_laporan' => 'required|string',
-            'kecamatan_id' => 'required|exists:kecamatans,id',
-            'kelurahan_id' => 'required|exists:kelurahans,id',
-            'jenis_masalah' => 'required|string|max:255',
-            'deskripsi_pengaduan' => 'required|string',
-            'dokumen' => 'required|array',
-            'dokumen.*' => 'mimes:pdf|max:6144', // Setiap file harus berukuran maksimal 2MB
-            'nama_dokumen' => 'required|array',
-            'nama_dokumen.*' => 'required|string|max:255',
-        ]);
+        try {
+            // Log request untuk debugging
+            Log::info('Laporan store request:', [
+                'nama_pelapor' => $request->nama_pelapor,
+                'status_laporan' => $request->status_laporan,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'jenis_masalah' => $request->jenis_masalah,
+                'files_count' => $request->hasFile('dokumen') ? count($request->file('dokumen')) : 0,
+            ]);
 
-        // Logika penomoran otomatis
-        $lastLaporan = Laporan::latest('id')->first();
-        $nextId = $lastLaporan ? $lastLaporan->id + 1 : 1;
-        $kode_laporan = 'LPR' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+            // Validasi data
+            $validated = $request->validate([
+                'nama_pelapor' => 'required|string|max:255',
+                'status_laporan' => 'required|string|in:proses,selesai',
+                'kecamatan_id' => 'required|integer|exists:kecamatans,id',
+                'kelurahan_id' => 'required|integer|exists:kelurahans,id',
+                'jenis_masalah' => 'required|string|max:255',
+                'deskripsi_pengaduan' => 'required|string',
+                'dokumen' => 'required|array|min:1',
+                'dokumen.*' => 'required|file|mimes:pdf|max:6144', // max 6MB
+                'nama_dokumen' => 'required|array|min:1',
+                'nama_dokumen.*' => 'required|string|max:255',
+            ], [
+                'nama_pelapor.required' => 'Nama pelapor harus diisi',
+                'status_laporan.required' => 'Status laporan harus dipilih',
+                'status_laporan.in' => 'Status laporan tidak valid',
+                'kecamatan_id.required' => 'Kecamatan harus dipilih',
+                'kecamatan_id.exists' => 'Kecamatan tidak valid',
+                'kelurahan_id.required' => 'Kelurahan harus dipilih',
+                'kelurahan_id.exists' => 'Kelurahan tidak valid',
+                'jenis_masalah.required' => 'Jenis masalah harus dipilih',
+                'deskripsi_pengaduan.required' => 'Deskripsi pengaduan harus diisi',
+                'dokumen.required' => 'Minimal satu dokumen harus diunggah',
+                'dokumen.*.required' => 'File dokumen harus diunggah',
+                'dokumen.*.mimes' => 'Format file harus PDF',
+                'dokumen.*.max' => 'Ukuran file maksimal 6MB',
+                'nama_dokumen.required' => 'Nama dokumen harus diisi',
+                'nama_dokumen.*.required' => 'Setiap dokumen harus memiliki nama',
+            ]);
 
-        // Menyimpan data laporan utama
-        $laporan = Laporan::create([
-            'nama_pelapor' => $request->nama_pelapor,
-            'kode_laporan' => $kode_laporan,
-            'status_laporan' => $request->status_laporan,
-            'kecamatan_id' => $request->kecamatan_id,
-            'kelurahan_id' => $request->kelurahan_id,
-            'jenis_masalah' => $request->jenis_masalah,
-            'deskripsi_pengaduan' => $request->deskripsi_pengaduan,
-        ]);
+            // Validasi tambahan: pastikan jumlah dokumen sama dengan nama dokumen
+            if (count($request->file('dokumen')) !== count($request->nama_dokumen)) {
+                return response()->json([
+                    'message' => 'Jumlah dokumen dan nama dokumen harus sama',
+                    'errors' => ['dokumen' => ['Jumlah dokumen dan nama dokumen tidak sesuai']]
+                ], 422);
+            }
 
-        // Menyimpan dokumen
-        if ($request->hasFile('dokumen')) {
-            foreach ($request->file('dokumen') as $key => $file) {
-                if ($file->isValid()) {
-                    $fileName = time() . '_' . $file->getClientOriginalName();
-                    // Diubah agar file tersimpan di folder 'public/dokumen'
-                    $filePath = Storage::putFileAs('public/dokumen', $file, $fileName);
-                    
-                    DokumenLaporan::create([
-                        'laporan_id' => $laporan->id,
-                        'nama_dokumen' => $request->nama_dokumen[$key],
-                        'path_file' => $filePath,
-                    ]);
+            // Mulai database transaction
+            DB::beginTransaction();
+
+            // Logika penomoran otomatis
+            $lastLaporan = Laporan::latest('id')->first();
+            $nextId = $lastLaporan ? $lastLaporan->id + 1 : 1;
+            $kode_laporan = 'LPR' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+
+            // Menyimpan data laporan utama
+            $laporan = Laporan::create([
+                'nama_pelapor' => $validated['nama_pelapor'],
+                'kode_laporan' => $kode_laporan,
+                'status_laporan' => $validated['status_laporan'],
+                'kecamatan_id' => $validated['kecamatan_id'],
+                'kelurahan_id' => $validated['kelurahan_id'],
+                'jenis_masalah' => $validated['jenis_masalah'],
+                'deskripsi_pengaduan' => $validated['deskripsi_pengaduan'],
+            ]);
+
+            Log::info('Laporan created with ID: ' . $laporan->id);
+
+            // Menyimpan dokumen
+            $dokumentMissing = true;
+            if ($request->hasFile('dokumen')) {
+                $files = $request->file('dokumen');
+                $namaDokumen = $request->nama_dokumen;
+                
+                foreach ($files as $key => $file) {
+                    if ($file && $file->isValid()) {
+                        $dokumentMissing = false;
+                        
+                        // Generate unique filename
+                        $fileName = time() . '_' . $key . '_' . $file->getClientOriginalName();
+                        
+                        // Simpan file ke storage/app/public/dokumen
+                        $filePath = $file->storeAs('public/dokumen', $fileName);
+                        
+                        Log::info('File saved: ' . $filePath);
+                        
+                        // Simpan info dokumen ke database
+                        DokumenLaporan::create([
+                            'laporan_id' => $laporan->id,
+                            'nama_dokumen' => $namaDokumen[$key] ?? 'Dokumen ' . ($key + 1),
+                            'path_file' => $filePath,
+                        ]);
+                        
+                        Log::info('Document record created for file: ' . $fileName);
+                    }
                 }
             }
-        }
+            
+            if ($dokumentMissing) {
+                throw new \Exception('Tidak ada dokumen valid yang diunggah');
+            }
 
-        return response()->json(['message' => 'Laporan berhasil diajukan!'], 201);
+            // Commit transaction
+            DB::commit();
+
+            Log::info('Laporan successfully stored with ID: ' . $laporan->id);
+
+            return response()->json([
+                'message' => 'Laporan berhasil diajukan!',
+                'data' => [
+                    'id' => $laporan->id,
+                    'kode_laporan' => $laporan->kode_laporan
+                ]
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollback();
+            Log::error('Validation error in laporan store: ', $e->errors());
+            
+            return response()->json([
+                'message' => 'Data tidak valid',
+                'errors' => $e->errors()
+            ], 422);
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error storing laporan: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan laporan',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
