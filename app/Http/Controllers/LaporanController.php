@@ -44,9 +44,17 @@ class LaporanController extends Controller
         $request->validate([
             'judul_laporan' => 'required|string|max:255',
             'status_laporan' => 'required|string|in:proses,selesai',
+            // Tambahkan validasi untuk semua bidang baru
+            'lokasi_kejadian' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'kecamatan_id' => 'required|integer|exists:kecamatans,id',
+            'kelurahan_id' => 'required|integer|exists:kelurahans,id',
+            'jenis_masalah' => 'required|string|max:255',
+            'deskripsi_pengaduan' => 'required|string',
         ]);
         
         $laporan = Laporan::findOrFail($id);
+        // Perbarui semua data laporan
         $laporan->update($request->all());
         
         return response()->json($laporan);

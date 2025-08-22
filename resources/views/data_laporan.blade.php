@@ -72,6 +72,36 @@
                     <option value="selesai">Selesai</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="edit_lokasi_kejadian">Lokasi Kejadian</label>
+                <input type="text" id="edit_lokasi_kejadian" name="lokasi_kejadian" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_tanggal">Tanggal Kejadian</label>
+                <input type="date" id="edit_tanggal" name="tanggal" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_kecamatan_id">Kecamatan</label>
+                <select id="edit_kecamatan_id" name="kecamatan_id" required>
+                    <option value="" disabled selected>Pilih Kecamatan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="edit_kelurahan_id">Kelurahan</label>
+                <select id="edit_kelurahan_id" name="kelurahan_id" required disabled>
+                    <option value="" disabled selected>Pilih Kelurahan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="edit_jenis_masalah">Jenis Masalah</label>
+                <select id="edit_jenis_masalah" name="jenis_masalah" required>
+                    <option value="" disabled selected>Pilih Jenis Masalah</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="edit_deskripsi_pengaduan">Deskripsi Pengaduan</label>
+                <textarea id="edit_deskripsi_pengaduan" name="deskripsi_pengaduan" required rows="5"></textarea>
+            </div>
             <button type="submit" class="btn btn-submit">Simpan</button>
         </form>
     </div>

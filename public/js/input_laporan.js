@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 kategoriDropdown.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Masalah --</option>';
                 data.forEach(item => {
                     const option = document.createElement('option');
-                    option.value = item.judul_laporan;
-                    option.textContent = item.judul_laporan;
+                    // Perbaikan di sini: Gunakan item.nama_laporan
+                    option.value = item.nama_laporan;
+                    option.textContent = item.nama_laporan;
                     kategoriDropdown.appendChild(option);
                 });
             })
@@ -89,11 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Validasi form sebelum submit
-        const namaSelapor = document.getElementById('judul_laporan').value.trim();
+        // Perbaikan: Ganti nama variabel dan ambil nilai dari id yang benar
+        const judulLaporan = document.getElementById('judul_laporan').value.trim();
         const statusLaporan = document.getElementById('status_laporan').value;
         const lokasiKejadian = document.getElementById('lokasi_kejadian').value;
-        const tanggal = document.getElementById('tanggal').value;
+        const tanggal = document.getElementById('tanggal').value; // Perbaikan di sini
         const kecamatanId = document.getElementById('kecamatan_id').value;
         const kelurahanId = document.getElementById('kelurahan_id').value;
         const jenisMasalah = document.getElementById('jenis_masalah').value;
@@ -103,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const fileInputs = document.querySelectorAll('input[name="dokumen[]"]');
         const namaFiles = document.querySelectorAll('input[name="nama_dokumen[]"]');
         
-        if (!namaSelapor) {
+        // Perbaikan: Validasi menggunakan variabel yang benar
+        if (!judulLaporan) {
             alert('Judul Laporan harus diisi!');
             return;
         }

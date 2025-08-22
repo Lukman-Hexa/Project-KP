@@ -34,9 +34,9 @@
                 <input type="text" id="lokasi_kejadian" name="lokasi_kejadian" placeholder="Lokasi Kejadian"  required maxlength="255">
             </div>
             <div class="form-group">
-                <label for="tanggal_kejadian">Tanggal Kejadian <span style="color: red;">*</span></label>
-                <input type="date" id="tanggal_kejadian" name="tanggal_kejadian" required>
-            </div>
+                <label for="tanggal">Tanggal Kejadian <span style="color: red;">*</span></label>
+                <input type="date" id="tanggal" name="tanggal" required>
+            </div>  
         </div>
 
         <div class="form-section">
