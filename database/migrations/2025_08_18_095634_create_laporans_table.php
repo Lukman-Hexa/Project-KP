@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pelapor');
+            $table->string('judul_laporan');
             $table->string('kode_laporan')->unique();
             $table->string('status_laporan')->default('proses');
+            $table->string('lokasi_kejadian');
+            $table->date('tanggal');
             $table->foreignId('kecamatan_id')->constrained('kecamatans')->onDelete('cascade');
             $table->foreignId('kelurahan_id')->constrained('kelurahans')->onDelete('cascade');
             $table->string('jenis_masalah');

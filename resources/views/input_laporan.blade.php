@@ -15,8 +15,8 @@
         @csrf
         <div class="form-section">
             <div class="form-group">
-                <label for="nama_pelapor">Nama Pelapor <span style="color: red;">*</span></label>
-                <input type="text" id="nama_pelapor" name="nama_pelapor" placeholder="Nama Pelapor" required maxlength="255">
+                <label for="judul_laporan">Judul Laporan <span style="color: red;">*</span></label>
+                <input type="text" id="judul_laporan" name="judul_laporan" placeholder="Judul Laporan" required maxlength="255">
             </div>
             <div class="form-group">
                 <label for="status_laporan">Status Laporan <span style="color: red;">*</span></label>
@@ -27,7 +27,18 @@
                 </select>
             </div>
         </div>
-        
+
+        <div class="form-section">
+            <div class="form-group">
+                <label for="lokasi_kejadian">Lokasi Kejadian <span style="color: red;">*</span></label>
+                <input type="text" id="lokasi_kejadian" name="lokasi_kejadian" placeholder="Lokasi Kejadian"  required maxlength="255">
+            </div>
+            <div class="form-group">
+                <label for="tanggal_kejadian">Tanggal Kejadian <span style="color: red;">*</span></label>
+                <input type="date" id="tanggal_kejadian" name="tanggal_kejadian" required>
+            </div>
+        </div>
+
         <div class="form-section">
             <div class="form-group">
                 <label for="kecamatan_id">Kecamatan <span style="color: red;">*</span></label>

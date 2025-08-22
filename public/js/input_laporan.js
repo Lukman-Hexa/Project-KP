@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 kategoriDropdown.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Masalah --</option>';
                 data.forEach(item => {
                     const option = document.createElement('option');
-                    option.value = item.nama_laporan;
-                    option.textContent = item.nama_laporan;
+                    option.value = item.judul_laporan;
+                    option.textContent = item.judul_laporan;
                     kategoriDropdown.appendChild(option);
                 });
             })
@@ -90,8 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         // Validasi form sebelum submit
-        const namaSelapor = document.getElementById('nama_pelapor').value.trim();
+        const namaSelapor = document.getElementById('judul_laporan').value.trim();
         const statusLaporan = document.getElementById('status_laporan').value;
+        const lokasiKejadian = document.getElementById('lokasi_kejadian').value;
+        const tanggal = document.getElementById('tanggal').value;
         const kecamatanId = document.getElementById('kecamatan_id').value;
         const kelurahanId = document.getElementById('kelurahan_id').value;
         const jenisMasalah = document.getElementById('jenis_masalah').value;
@@ -102,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const namaFiles = document.querySelectorAll('input[name="nama_dokumen[]"]');
         
         if (!namaSelapor) {
-            alert('Nama pelapor harus diisi!');
+            alert('Judul Laporan harus diisi!');
             return;
         }
         
@@ -110,7 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Status laporan harus dipilih!');
             return;
         }
-        
+
+        if (!lokasiKejadian) {
+            alert('Lokasi Kejadian harus diisi!');
+            return;
+        }
+
+        if (!tanggal) {
+            alert('Tanggal harus dipilih!');
+            return;
+        }
+
         if (!kecamatanId) {
             alert('Kecamatan harus dipilih!');
             return;

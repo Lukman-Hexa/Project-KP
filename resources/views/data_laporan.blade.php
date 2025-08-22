@@ -16,8 +16,9 @@
             <thead>
                 <tr>
                     <th>No. Laporan</th>
-                    <th>Nama Pelapor</th>
+                    <th>Judul Laporan</th>
                     <th>Lokasi Kejadian</th>
+                    <th>Tanggal</th>
                     <th>Jenis Masalah</th>
                     <th>Deskripsi</th>
                     <th>File</th>
@@ -29,8 +30,9 @@
                 @foreach ($laporans as $laporan)
                     <tr>
                         <td>{{ $laporan->kode_laporan }}</td>
-                        <td>{{ $laporan->nama_pelapor }}</td>
-                        <td>{{ $laporan->kelurahan->nama_kelurahan }}, {{ $laporan->kecamatan->nama_kecamatan }}</td>
+                        <td>{{ $laporan->judul_laporan }}</td>
+                        <td>{{ $laporan->lokasi_kejadian }}</td>
+                        <td>{{ $laporan->tanggal }} </td>
                         <td>{{ $laporan->jenis_masalah }}</td>
                         <td>{{ $laporan->deskripsi_pengaduan }}</td>
                         <td>
@@ -60,8 +62,8 @@
         <form id="edit-laporan-form">
             <input type="hidden" id="laporan-id" name="id">
             <div class="form-group">
-                <label for="edit_nama_pelapor">Nama Pelapor</label>
-                <input type="text" id="edit_nama_pelapor" name="nama_pelapor" required>
+                <label for="edit_judul_laporan">Judul Laporan</label>
+                <input type="text" id="edit_judul_laporan" name="judul_laporan" required>
             </div>
             <div class="form-group">
                 <label for="edit_status_laporan">Status Laporan</label>

@@ -42,7 +42,7 @@ class LaporanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_pelapor' => 'required|string|max:255',
+            'judul_laporan' => 'required|string|max:255',
             'status_laporan' => 'required|string|in:proses,selesai',
         ]);
         
@@ -99,8 +99,10 @@ class LaporanController extends Controller
         try {
             // Log request untuk debugging
             Log::info('Laporan store request:', [
-                'nama_pelapor' => $request->nama_pelapor,
+                'judul_laporan' => $request->judul_laporan,
                 'status_laporan' => $request->status_laporan,
+                'lokasi_kejadian' => $request->judul_laporan,
+                'tanggal' => $request->tanggal,
                 'kecamatan_id' => $request->kecamatan_id,
                 'kelurahan_id' => $request->kelurahan_id,
                 'jenis_masalah' => $request->jenis_masalah,
@@ -109,8 +111,10 @@ class LaporanController extends Controller
 
             // Validasi data
             $validated = $request->validate([
-                'nama_pelapor' => 'required|string|max:255',
+                'judul_laporan' => 'required|string|max:255',
                 'status_laporan' => 'required|string|in:proses,selesai',
+                'lokasi_kejadian' => 'required|string|max:255',
+                'tanggal' => 'required|date',
                 'kecamatan_id' => 'required|integer|exists:kecamatans,id',
                 'kelurahan_id' => 'required|integer|exists:kelurahans,id',
                 'jenis_masalah' => 'required|string|max:255',
@@ -120,9 +124,11 @@ class LaporanController extends Controller
                 'nama_dokumen' => 'required|array|min:1',
                 'nama_dokumen.*' => 'required|string|max:255',
             ], [
-                'nama_pelapor.required' => 'Nama pelapor harus diisi',
+                'judul_laporan.required' => 'Judul Laporan harus diisi',
                 'status_laporan.required' => 'Status laporan harus dipilih',
                 'status_laporan.in' => 'Status laporan tidak valid',
+                'lokasi_kejadian' => 'Lokasi jadian harus diisi',
+                'tanggal' => 'Tanggal harus diisi',
                 'kecamatan_id.required' => 'Kecamatan harus dipilih',
                 'kecamatan_id.exists' => 'Kecamatan tidak valid',
                 'kelurahan_id.required' => 'Kelurahan harus dipilih',
@@ -155,9 +161,11 @@ class LaporanController extends Controller
 
             // Menyimpan data laporan utama
             $laporan = Laporan::create([
-                'nama_pelapor' => $validated['nama_pelapor'],
+                'judul_laporan' => $validated['judul_laporan'],
                 'kode_laporan' => $kode_laporan,
                 'status_laporan' => $validated['status_laporan'],
+                'lokasi_kejadian' => $validated['lokasi_kejadian'],
+                'tanggal' => $validated['tanggal'],
                 'kecamatan_id' => $validated['kecamatan_id'],
                 'kelurahan_id' => $validated['kelurahan_id'],
                 'jenis_masalah' => $validated['jenis_masalah'],
