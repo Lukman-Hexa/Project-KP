@@ -71,6 +71,7 @@ body {
     margin-bottom: 20px;
 }
 
+
 .article-card {
     display: flex;
     background-color: #fff;
@@ -78,17 +79,29 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 15px;
     overflow: hidden;
+    align-items: flex-start; /* Untuk menyelaraskan item di bagian atas */
 }
 
 .article-image-placeholder {
     width: 100px;
     height: 100px;
-    background-color: #ccc; /* Placeholder warna abu-abu */
     flex-shrink: 0;
+    /* Tambahkan properti untuk tata letak gambar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Pastikan gambar tidak meluap */
+}
+
+.article-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Pastikan gambar mengisi ruang tanpa terdistorsi */
 }
 
 .article-content {
     padding: 15px;
+    text-align: left;
 }
 
 .article-content h3 {
@@ -100,6 +113,7 @@ body {
 .article-content p {
     font-size: 14px;
     color: #666;
+    margin: 0;
 }
 
 /* public/css/public_style.css - Lanjutan */

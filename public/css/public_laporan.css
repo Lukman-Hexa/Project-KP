@@ -13,6 +13,11 @@ body {
 }
 
 .public-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: #00796b;
     color: #fff;
     padding: 15px;
@@ -33,37 +38,55 @@ body {
     height: 40px;
 }
 
+.search-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    width: 90%; /* Mengurangi lebar formulir agar ada ruang di sisi-sisi */
+    max-width: 400px;
+    gap: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.search-button {
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    /* Tambahkan lebar minimum agar tidak terpotong */
+    min-width: 70px;
+}
+
 .main-content-public {
     flex-grow: 1;
+    /* Tambahkan padding-top yang cukup untuk header */
+    padding-top: 70px;
     padding-bottom: 70px; /* Ruang untuk bottom nav */
     overflow-y: auto;
 }
 
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #00796b;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.nav-item {
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    font-size: 12px;
-}
-
-.nav-item i {
-    font-size: 24px;
-    display: block;
-    margin-bottom: 4px;
-}
-
-/* Gaya untuk halaman laporan */
 .report-card {
     cursor: pointer;
     background-color: #fff;
@@ -90,24 +113,22 @@ body {
 }
 
 .report-details {
-    display: none; /* Awalnya sembunyikan detail */
+    display: none;
     border-top: 1px solid #ddd;
     margin-top: 15px;
     padding-top: 15px;
 }
 
 .report-card.open .report-details {
-    display: block; /* Tampilkan saat diklik */
+    display: block;
 }
 
-/* Perbaikan: Ganti text-align: center dengan margin-left: 15px */
 h2.report-list-title {
     color: #00796b;
     margin: 20px 0 20px 15px;
     text-align: left;
 }
 
-/* Perbaikan di sini: */
 .report-details p {
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -122,11 +143,11 @@ h2.report-list-title {
 }
 
 .status-proses {
-    background-color: #0079c1; /* Warna biru */
+    background-color: #0079c1;
 }
 
 .status-selesai {
-    background-color: #28a745; /* Warna hijau */
+    background-color: #28a745;
 }
 
 .report-details-box {
@@ -175,36 +196,37 @@ h2.report-list-title {
     text-decoration: none;
 }
 
-.search-container {
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: center; /* Perbaikan: Pusatkan formulir pencarian */
-    align-items: center;
-    gap: 10px;
-}
-
-.search-form {
-    display: flex;
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    max-width: 400px;
-}
-
-.search-input {
-    flex-grow: 1; /* Perbaikan: Input akan mengisi ruang yang tersedia */
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 14px;
-}
-
-.search-button {
     background-color: #00796b;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
     color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    white-space: nowrap;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav-item i {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.nav-item.whatsapp i {
+    color: #25D366;
+}
+
+.nav-item.active {
+    background-color: #61A49B;
+    padding: 5px 15px;
+    border-radius: 8px;
+    margin: 0 -15px;
 }
