@@ -40,8 +40,8 @@ return [
 
        'public' => [
             'driver' => 'local',
-            'root' => public_path(), // Ubah ini: file akan disimpan langsung di folder public
-            'url' => env('APP_URL'),  // Ubah ini: URL akan menunjuk langsung ke root
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

@@ -8,7 +8,6 @@ use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PublicLaporanController;
-use App\Http\Controllers\ArtikelController;
 
 // Rute untuk halaman publik
 Route::get('/', [PublicController::class, 'index']);
@@ -19,8 +18,6 @@ Route::get('admin', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('admin', [UserController::class, 'login']);
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('artikel', [ArtikelController::class, 'index'])->name('artikel');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [UserController::class, 'showHome'])->name('dashboard');
     Route::get('kategori-laporan', [KategoriLaporanController::class, 'index'])->name('kategori-laporan');
@@ -28,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kelurahan', [KelurahanController::class, 'index'])->name('kelurahan');
     Route::get('input-laporan', [LaporanController::class, 'create'])->name('input-laporan');
     Route::get('data-laporan', [LaporanController::class, 'index'])->name('data-laporan');
+    
     
 });
 
@@ -71,11 +69,4 @@ Route::prefix('api')->group(function () {
     Route::delete('laporan/{id}', [LaporanController::class, 'destroy']);
     Route::post('laporan', [LaporanController::class, 'store'])->name('laporan.store');
 
-    // API untuk halaman Artikel
-    Route::get('artikel-api', [ArtikelController::class, 'all']); // Rute baru untuk API
-    Route::post('artikel-api', [ArtikelController::class, 'store']);
-    Route::get('artikel-api/{id}', [ArtikelController::class, 'show']);
-    Route::post('artikel-api/{id}', [ArtikelController::class, 'update']);
-    Route::delete('artikel-api/{id}', [ArtikelController::class, 'destroy']);
-    
 });

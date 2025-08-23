@@ -12,16 +12,5 @@
             <div class="carousel-nav-dots"></div>
         </div>
 
-       @foreach($artikels as $artikel)
-            <div class="article-card">
-                <div class="article-image-placeholder">
-                    <img src="{{ asset($artikel->gambar_artikel) }}" alt="{{ $artikel->judul_artikel }}" style="width:100px;height:100px;object-fit:cover;">
-                </div>
-                <div class="article-content">
-                    <h3>{{ $artikel->judul_artikel }}</h3>
-                    <p>{{ \Illuminate\Support\Str::limit($artikel->deskripsi, 100, '...') }}</p>
-                </div>
-            </div>
-        @endforeach
     </div>
 @endsection
