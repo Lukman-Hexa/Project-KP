@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+@endpush
+
 @section('content')
     <div class="dashboard-content">
         <img src="{{ asset('images/logo.png') }}" alt="Logo DLH" class="main-logo">

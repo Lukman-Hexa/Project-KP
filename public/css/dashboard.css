@@ -1,0 +1,27 @@
+/* File: public/css/dashboard.css */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.main-logo {
+    width: 250px;
+}
+
+.main-title {
+    color: #00796b;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.text-blue {
+    color: #0087c5;
+}
+
+.text-yellow {
+    color: #ffc107;
+}

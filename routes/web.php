@@ -6,9 +6,16 @@ use App\Http\Controllers\KategoriLaporanController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\PublicLaporanController;
 
-Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
-Route::post('login', [UserController::class, 'login']);
+// Rute untuk halaman publik
+Route::get('/', [PublicController::class, 'index']);
+Route::get('/laporan', [PublicLaporanController::class, 'index'])->name('public.laporan'); // Perbarui ini
+
+// Rute untuk halaman admin
+Route::get('admin', [UserController::class, 'showLoginForm'])->name('login');
+Route::post('admin', [UserController::class, 'login']);
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {

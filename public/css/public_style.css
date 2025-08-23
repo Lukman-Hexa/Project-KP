@@ -1,0 +1,260 @@
+/* public/css/public_style.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+}
+
+.public-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.public-header {
+    background-color: #00796b;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.public-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.public-header-content img {
+    height: 40px;
+}
+
+.main-content-public {
+    flex-grow: 1;
+    padding-bottom: 70px; /* Ruang untuk bottom nav */
+    overflow-y: auto;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #00796b;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav-item i {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Style untuk konten halaman */
+.hero-image {
+    width: 100%;
+    height: auto;
+    background-color: #ccc; /* Placeholder warna abu-abu */
+    margin-bottom: 20px;
+}
+
+.article-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    overflow: hidden;
+}
+
+.article-image-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc; /* Placeholder warna abu-abu */
+    flex-shrink: 0;
+}
+
+.article-content {
+    padding: 15px;
+}
+
+.article-content h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.article-content p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* public/css/public_style.css - Lanjutan */
+
+/* Gaya untuk Carousel */
+.carousel-container {
+    width: 100%;
+    max-width: 800px; /* Lebar maksimal carousel */
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-image {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    height: 250px; /* Sesuaikan tinggi gambar */
+}
+
+/* Indikator navigasi */
+.carousel-nav-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.nav-dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-dot.active {
+    background-color: #fff;
+}
+
+/* Gaya untuk Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #00796b;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav-item i {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Gaya khusus untuk ikon WhatsApp */
+.nav-item.whatsapp i {
+    color: #25D366; /* Warna hijau WhatsApp */
+}
+
+/* Gaya untuk ikon aktif */
+.nav-item.active {
+    background-color: #61A49B; /* Latar belakang hijau muda */
+    padding: 5px 15px;
+    border-radius: 8px;
+    margin: 0 -15px;
+}
+
+.search-container {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search-container form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.search-button {
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Gaya untuk laporan dalam bentuk daftar */
+.report-card {
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    padding: 20px;
+    transition: background-color 0.3s;
+}
+
+.report-card:hover {
+    background-color: #f5f5f5;
+}
+
+.report-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-summary h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.report-details {
+    display: none; /* Awalnya sembunyikan detail */
+    border-top: 1px solid #ddd;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.report-card.open .report-details {
+    display: block; /* Tampilkan saat diklik */
+}
+
+/* Memastikan deskripsi tidak keluar dari frame */
+.report-details-box p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

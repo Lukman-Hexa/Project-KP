@@ -102,7 +102,8 @@ body {
 /* --- Dashboard Styles --- */
 .app-layout {
     display: flex;
-    min-height: 100vh;
+    height: 100vh; /* Perbaikan: Atur tinggi agar sesuai dengan viewport */
+    overflow: hidden; /* Perbaikan: Sembunyikan gulir halaman utama */
 }
 
 .sidebar {
@@ -112,6 +113,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
+    overflow-y: auto; /* Tambahan: Izinkan sidebar untuk digulir jika kontennya panjang */
+    flex-shrink: 0; /* Tambahan: Cegah sidebar menyusut */
 }
 
 .sidebar-header {
@@ -235,6 +238,7 @@ body {
     background-color: #fff;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Tambahan: Cegah header menyusut saat gulir */
 }
 
 .header-logo {
@@ -252,6 +256,7 @@ body {
     flex-grow: 1;
     background-color: #f0f2f5;
     padding: 20px;
+    overflow-y: auto; /* Perbaikan: Izinkan hanya konten yang dapat digulir */
 }
 
 .dashboard-content {
@@ -277,7 +282,6 @@ body {
 
 /* Penyesuaian khusus untuk halaman kategori laporan */
 .page-content {
-    /* Menghilangkan margin auto agar tidak di tengah */
     margin: 20px 20px;
     width: auto;
     background-color: #00796b;

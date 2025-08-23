@@ -1,0 +1,210 @@
+/* public/css/public_laporan.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+}
+
+.public-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.public-header {
+    background-color: #00796b;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.public-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.public-header-content img {
+    height: 40px;
+}
+
+.main-content-public {
+    flex-grow: 1;
+    padding-bottom: 70px; /* Ruang untuk bottom nav */
+    overflow-y: auto;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #00796b;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav-item i {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Gaya untuk halaman laporan */
+.report-card {
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    padding: 20px;
+    transition: background-color 0.3s;
+}
+
+.report-card:hover {
+    background-color: #f5f5f5;
+}
+
+.report-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-summary h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.report-details {
+    display: none; /* Awalnya sembunyikan detail */
+    border-top: 1px solid #ddd;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.report-card.open .report-details {
+    display: block; /* Tampilkan saat diklik */
+}
+
+/* Perbaikan: Ganti text-align: center dengan margin-left: 15px */
+h2.report-list-title {
+    color: #00796b;
+    margin: 20px 0 20px 15px;
+    text-align: left;
+}
+
+/* Perbaikan di sini: */
+.report-details p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.report-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.status-proses {
+    background-color: #0079c1; /* Warna biru */
+}
+
+.status-selesai {
+    background-color: #28a745; /* Warna hijau */
+}
+
+.report-details-box {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.report-detail-item {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.report-detail-item strong {
+    min-width: 120px;
+    color: #555;
+}
+
+.report-files {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-link {
+    color: #00796b;
+    text-decoration: none;
+}
+
+.search-container {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center; /* Perbaikan: Pusatkan formulir pencarian */
+    align-items: center;
+    gap: 10px;
+}
+
+.search-form {
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    flex-grow: 1; /* Perbaikan: Input akan mengisi ruang yang tersedia */
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.search-button {
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}

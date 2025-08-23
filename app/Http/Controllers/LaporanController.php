@@ -25,6 +25,13 @@ class LaporanController extends Controller
         $laporans = Laporan::with(['kecamatan', 'kelurahan', 'dokumen'])->get();
         return view('data_laporan', compact('laporans'));
     }
+    
+    public function publicIndex()
+    {
+        // Ambil semua laporan dengan relasi yang diperlukan
+        $laporans = Laporan::with(['kecamatan', 'kelurahan', 'dokumen'])->get();
+        return view('public.laporan', compact('laporans'));
+    }
 
     /**
      * Mengambil satu laporan berdasarkan ID.
