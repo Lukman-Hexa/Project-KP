@@ -13,6 +13,7 @@ use App\Http\Controllers\PublicLaporanController;
 Route::get('/', [PublicController::class, 'index']);
 Route::get('/laporan', [PublicLaporanController::class, 'index'])->name('public.laporan'); // Perbarui ini
 
+
 // Rute untuk halaman admin
 Route::get('admin', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('admin', [UserController::class, 'login']);
@@ -68,5 +69,9 @@ Route::prefix('api')->group(function () {
     Route::put('laporan/{id}', [LaporanController::class, 'update']);
     Route::delete('laporan/{id}', [LaporanController::class, 'destroy']);
     Route::post('laporan', [LaporanController::class, 'store'])->name('laporan.store');
+
+    // API BARU untuk halaman publik
+    Route::get('public-homepage', [PublicController::class, 'getPublicData']); // <--- Tambahkan ini
+    Route::get('public-laporan', [PublicLaporanController::class, 'getPublicLaporans']); // <--- Tambahkan ini
 
 });

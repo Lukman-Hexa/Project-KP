@@ -54,4 +54,37 @@ class PublicController extends Controller
             ]);
         }
     }
+
+    // Metode baru untuk API data homepage
+    public function getPublicData()
+    {
+        try {
+            $laporansBulanan = Laporan::select(
+                    DB::raw('count(id) as jumlah_laporan'),
+                    DB::raw('DATE_FORMAT(tanggal, "%Y-%m") as bulan')
+                )
+                ->groupBy('bulan')
+                ->orderBy('bulan', 'asc')
+                ->get();
+                
+            $laporanTerbaru = Laporan::with(['kecamatan', 'kelurahan'])
+                                    ->latest()
+                                    ->take(3)
+                                    ->get();
+
+            $totalLaporan = Laporan::count();
+            $totalLaporanSelesai = Laporan::where('status_laporan', 'selesai')->count();
+                
+            return response()->json([
+                'laporansBulanan' => $laporansBulanan,
+                'laporanTerbaru' => $laporanTerbaru,
+                'totalLaporan' => $totalLaporan,
+                'totalLaporanSelesai' => $totalLaporanSelesai
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Error fetching public homepage data: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch public data'], 500);
+        }
+    }
 }
