@@ -114,6 +114,9 @@
                 <img src="{{ asset('images/dlh.jpeg') }}" alt="Gambar 1" class="carousel-image">
                 <img src="{{ asset('images/dlh2.jpeg') }}" alt="Gambar 2" class="carousel-image">
                 <img src="{{ asset('images/dlh3.jpeg') }}" alt="Gambar 3" class="carousel-image">
+                <img src="{{ asset('images/dlh4.jpeg') }}" alt="Gambar 4" class="carousel-image">
+                <img src="{{ asset('images/dlh5.jpeg') }}" alt="Gambar 5" class="carousel-image">
+                <img src="{{ asset('images/dlh6.jpeg') }}" alt="Gambar 6" class="carousel-image">
             </div>
             <div class="carousel-nav-dots"></div>
         </div>

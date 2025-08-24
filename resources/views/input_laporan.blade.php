@@ -71,7 +71,7 @@
 
         <div class="form-group file-input-container">
             <label>Lampiran Dokumen <span style="color: red;">*</span> <small>(Format: PDF, Max: 6MB per file)</small></label>
-            <button type="button" id="add-document-btn" class="btn btn-secondary">
+            <button type="button" id="add-document-btn" class="btn btn-add-file">
                 <i class="fas fa-plus"></i> Tambah Lampiran
             </button>
             <div id="file-inputs">
@@ -89,9 +89,32 @@
     </form>
 </div>
 
+{{-- Modal Konfirmasi --}}
+<div id="konfirmasi-modal" class="modal">
+    <div class="modal-content-delete">
+        <h2 class="modal-title-delete">Konfirmasi Pengajuan Laporan</h2>
+        <p>Apakah Anda yakin ingin mengajukan laporan ini?</p>
+        <div class="modal-buttons">
+            <button id="cancel-konfirmasi" class="btn btn-secondary">Batal</button>
+            <button id="confirm-konfirmasi" class="btn btn-danger">Ya, Ajukan</button>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Loading --}}
 <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px;">
         <p>Sedang mengunggah laporan...</p>
+    </div>
+</div>
+{{-- Modal Sukses --}}
+<div id="sukses-modal" class="modal">
+    <div class="modal-content-delete">
+        <h2 style="color: #28a745; margin-top: 0;">Sukses!</h2>
+        <p>Laporan berhasil diajukan.</p>
+        <div class="modal-buttons">
+            <button id="ok-sukses" class="btn btn-primary" style="background-color: #28a745;">OK</button>
+        </div>
     </div>
 </div>
 @endsection

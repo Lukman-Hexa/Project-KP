@@ -26,7 +26,7 @@
                 <i class="fas fa-home"></i>
                 <span>Beranda</span>
             </a>
-            <a href="https://wa.me/6281234567890" target="_blank" class="nav-item whatsapp">
+            <a href="https://wa.me/6283126157245" target="_blank" class="nav-item whatsapp">
                 <i class="fab fa-whatsapp"></i>
                 <span>Hubungi</span>
             </a>

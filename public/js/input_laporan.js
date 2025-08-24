@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const kategoriDropdown = document.getElementById('jenis_masalah');
     const addDocumentBtn = document.getElementById('add-document-btn');
     const fileInputsContainer = document.getElementById('file-inputs');
+    const konfirmasiModal = document.getElementById('konfirmasi-modal');
+    const suksesModal = document.getElementById('sukses-modal');
+    const cancelKonfirmasiBtn = document.getElementById('cancel-konfirmasi');
+    const confirmKonfirmasiBtn = document.getElementById('confirm-konfirmasi');
+    const okSuksesBtn = document.getElementById('ok-sukses');
+    const loadingOverlay = document.getElementById('loading-overlay');
 
     function fetchKecamatanDropdown() {
         fetch('/api/kecamatan')
@@ -28,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 kategoriDropdown.innerHTML = '<option value="" disabled selected>-- Pilih Jenis Masalah --</option>';
                 data.forEach(item => {
                     const option = document.createElement('option');
-                    // Perbaikan di sini: Gunakan item.nama_laporan
                     option.value = item.nama_laporan;
                     option.textContent = item.nama_laporan;
                     kategoriDropdown.appendChild(option);
@@ -87,93 +92,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Menangani klik tombol submit form
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        // Perbaikan: Ganti nama variabel dan ambil nilai dari id yang benar
+
         const judulLaporan = document.getElementById('judul_laporan').value.trim();
         const statusLaporan = document.getElementById('status_laporan').value;
         const lokasiKejadian = document.getElementById('lokasi_kejadian').value;
-        const tanggal = document.getElementById('tanggal').value; // Perbaikan di sini
+        const tanggal = document.getElementById('tanggal').value;
         const kecamatanId = document.getElementById('kecamatan_id').value;
         const kelurahanId = document.getElementById('kelurahan_id').value;
         const jenisMasalah = document.getElementById('jenis_masalah').value;
         const deskripsiPengaduan = document.getElementById('deskripsi_pengaduan').value.trim();
-        
-        // Validasi file upload
         const fileInputs = document.querySelectorAll('input[name="dokumen[]"]');
         const namaFiles = document.querySelectorAll('input[name="nama_dokumen[]"]');
         
-        // Perbaikan: Validasi menggunakan variabel yang benar
-        if (!judulLaporan) {
-            alert('Judul Laporan harus diisi!');
-            return;
-        }
-        
-        if (!statusLaporan) {
-            alert('Status laporan harus dipilih!');
+        if (!judulLaporan || !statusLaporan || !lokasiKejadian || !tanggal || !kecamatanId || !kelurahanId || !jenisMasalah || !deskripsiPengaduan) {
+            alert('Semua kolom bertanda (*) harus diisi.');
             return;
         }
 
-        if (!lokasiKejadian) {
-            alert('Lokasi Kejadian harus diisi!');
-            return;
-        }
-
-        if (!tanggal) {
-            alert('Tanggal harus dipilih!');
-            return;
-        }
-
-        if (!kecamatanId) {
-            alert('Kecamatan harus dipilih!');
-            return;
-        }
-        
-        if (!kelurahanId) {
-            alert('Kelurahan harus dipilih!');
-            return;
-        }
-        
-        if (!jenisMasalah) {
-            alert('Jenis masalah harus dipilih!');
-            return;
-        }
-        
-        if (!deskripsiPengaduan) {
-            alert('Deskripsi pengaduan harus diisi!');
-            return;
-        }
-        
-        // Validasi file
         for (let i = 0; i < fileInputs.length; i++) {
-            if (!fileInputs[i].files[0]) {
-                alert('Semua file dokumen harus diunggah!');
+            if (!fileInputs[i].files[0] || !namaFiles[i].value.trim()) {
+                alert('Semua dokumen harus diunggah dan memiliki nama!');
                 return;
             }
-            
-            if (!namaFiles[i].value.trim()) {
-                alert('Nama dokumen harus diisi!');
-                return;
-            }
-            
-            // Validasi ukuran file (max 6MB)
             if (fileInputs[i].files[0].size > 6 * 1024 * 1024) {
                 alert('Ukuran file tidak boleh lebih dari 6MB!');
                 return;
             }
-            
-            // Validasi format file
             if (!fileInputs[i].files[0].name.toLowerCase().endsWith('.pdf')) {
                 alert('Format file harus PDF!');
                 return;
             }
         }
+
+        konfirmasiModal.style.display = 'flex';
+    });
+    
+    // Menangani tombol "Batal" di modal konfirmasi
+    cancelKonfirmasiBtn.addEventListener('click', function() {
+        konfirmasiModal.style.display = 'none';
+    });
+
+    // Menangani tombol "Ya, Ajukan" di modal konfirmasi
+    confirmKonfirmasiBtn.addEventListener('click', function() {
+        konfirmasiModal.style.display = 'none';
         
         const formData = new FormData(form);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+        loadingOverlay.style.display = 'flex';
         
-        // Tampilkan loading
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Sedang mengirim...';
@@ -188,12 +158,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(response => {
-            // Reset button
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-            
+
             if (!response.ok) {
-                // Log response untuk debugging
                 return response.text().then(text => {
                     console.error('Error response:', text);
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -212,14 +180,15 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             console.log('Success:', data);
-            alert('Laporan berhasil diajukan!');
+            
+            // Tampilkan modal sukses
+            suksesModal.style.display = 'flex';
+
             form.reset();
             
-            // Reset dropdowns
             kelurahanDropdown.innerHTML = '<option value="" disabled selected>-- Pilih Kelurahan --</option>';
             kelurahanDropdown.disabled = true;
             
-            // Reset file inputs container to original state
             fileInputsContainer.innerHTML = `
                 <div class="file-input-group">
                     <input type="file" name="dokumen[]" accept=".pdf" required>
@@ -232,16 +201,31 @@ document.addEventListener('DOMContentLoaded', function() {
             fetchKategoriDropdown();
         })
         .catch(error => {
-            // Reset button
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
             
             console.error('Error:', error);
             alert('Terjadi kesalahan: ' + error.message);
+        })
+        .finally(() => {
+            loadingOverlay.style.display = 'none';
         });
     });
     
-    // Initialize dropdowns
+    // Menangani tombol "OK" di modal sukses
+    okSuksesBtn.addEventListener('click', function() {
+        suksesModal.style.display = 'none';
+    });
+
+    window.onclick = function(event) {
+        if (event.target == konfirmasiModal) {
+            konfirmasiModal.style.display = 'none';
+        }
+        if (event.target == suksesModal) {
+            suksesModal.style.display = 'none';
+        }
+    }
+    
     fetchKecamatanDropdown();
     fetchKategoriDropdown();
 });

@@ -129,7 +129,13 @@ h2.report-list-title {
     text-align: left;
 }
 
+/* .report-details p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+} */
 .report-details p {
+    /* Menambahkan properti text-align untuk membuat teks rata kanan dan kiri */
+    text-align: justify; 
     word-wrap: break-word;
     overflow-wrap: break-word;
 }

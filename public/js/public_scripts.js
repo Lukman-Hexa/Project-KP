@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const track = document.querySelector('.carousel-track');
-    
+
     // Perbaikan: Tambahkan pemeriksaan di sini
     if (track) {
         const images = document.querySelectorAll('.carousel-image');
@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         const totalImages = images.length;
         const intervalTime = 3000; // Waktu dalam ms (3 detik)
+
+        // Perbaikan: Hapus semua titik yang ada sebelum membuat yang baru
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+        }
 
         // Buat dot navigasi
         images.forEach((_, index) => {
