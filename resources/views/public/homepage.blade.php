@@ -111,9 +111,9 @@
         {{-- Carousel yang sudah ada --}}
         <div class="carousel-container">
             <div class="carousel-track">
-                <img src="{{ asset('images/nim.jpg') }}" alt="Gambar 1" class="carousel-image">
-                <img src="{{ asset('images/nim2.png') }}" alt="Gambar 2" class="carousel-image">
-                <img src="{{ asset('images/nim3.jpg') }}" alt="Gambar 3" class="carousel-image">
+                <img src="{{ asset('images/dlh.jpeg') }}" alt="Gambar 1" class="carousel-image">
+                <img src="{{ asset('images/dlh2.jpeg') }}" alt="Gambar 2" class="carousel-image">
+                <img src="{{ asset('images/dlh3.jpeg') }}" alt="Gambar 3" class="carousel-image">
             </div>
             <div class="carousel-nav-dots"></div>
         </div>
@@ -159,20 +159,18 @@
     </div>
 @endsection
 
+
 @push('scripts')
-    {{-- Sertakan pustaka Chart.js terlebih dahulu --}}
+    {{-- Chart.js harus dimuat lebih dulu --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    {{-- Teruskan data dari PHP ke JavaScript melalui variabel global --}}
+
+    {{-- Definisikan data TANPA @json agar editor tidak salah baca --}}
     <script>
-        // Pastikan data tersedia dan dalam format yang benar
-        window.laporansData = @json($laporansBulanan ?? []);
-        
-        // Debug: tampilkan data di console (bisa dihapus nanti)
+        window.laporansData = {!! json_encode($laporansBulanan ?? []) !!};
         console.log('Laporan Data:', window.laporansData);
     </script>
-    
-    {{-- Sertakan skrip kustom setelah Chart.js dan data tersedia --}}
+
+    {{-- Baru kemudian file JS public --}}
     <script src="{{ asset('js/public_homepage.js') }}"></script>
     <script src="{{ asset('js/public_scripts.js') }}"></script>
 @endpush
